@@ -1,0 +1,17 @@
+#runtime "hsp3cl"
+#cmpopt varinit 1
+dimtype ie,6:newcom ie,"InternetExplorer.Application"
+#define ieWait while ie@("Busy") | 4!ie@("readyState"): wait 10: wend
+ie("Visible")=1
+ie->"Navigate" "http://google.com/"
+
+ieWait
+document=ie("document")
+dimtype o,6: comres o
+document->"getElementsByName" "q":o=o("item",0):o("value")="Hello World"
+
+wait 500
+document->"getElementsByName" "f":o=o("item",0):o->"submit"
+
+wait 500
+ie->"Quit"
